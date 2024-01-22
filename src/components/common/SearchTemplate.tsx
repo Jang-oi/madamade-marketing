@@ -21,7 +21,7 @@ const SearchTemplate = () => {
         } else {
             resetShoppingData();
             setIsLoading(true);
-            axiosAPI('/getShoppingList', {searchValue, pagingIndex: 1})
+            axiosAPI('/getShoppingList', {searchValue})
                 .then(res => {
                     const response = res.data.response;
                     setSnackbarOption({

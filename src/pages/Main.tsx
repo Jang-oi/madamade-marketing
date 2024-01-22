@@ -1,9 +1,10 @@
 import SearchTemplate from "../components/common/SearchTemplate";
 import {useRecoilValue} from "recoil";
 import {shoppingDataState} from "../recoil/shoppingData/atom";
-import ShoppingCard from "../components/Search/shoppingCard";
+import ShoppingCard from "../components/Search/ShoppingCard";
 import {formatDate, setLocaleString} from "../utils/commonUits";
-import {Grid} from "@mui/joy";
+import {Stack} from "@mui/joy";
+import ShoppingModal from "../components/Search/ShoppingModal";
 
 const Main = () => {
 
@@ -11,19 +12,41 @@ const Main = () => {
     return (
         <>
             <SearchTemplate/>
-            <Grid container direction={"row"} spacing={4} sx={{mt: 5}}>
-                {shoppingData.length > 0 && shoppingData.map((shoppingItem: any, shoppingIndex) => (
-                    <Grid xs={12} sm={12} md={6} lg={4} xl={3} key={shoppingIndex}>
-                        <ShoppingCard imageUrl={shoppingItem.imageUrl} productTitle={shoppingItem.productTitle}
-                                      openDate={formatDate(shoppingItem.openDate)}
-                                      price={setLocaleString(Number(shoppingItem.price))}
-                                      deliveryFeeContent={setLocaleString(Number(shoppingItem.deliveryFeeContent))}
-                                      reviewCount={setLocaleString(shoppingItem.reviewCount)}
-                                      purchaseCnt={setLocaleString(shoppingItem.purchaseCnt)}
-                                      originalMallProductId={shoppingItem.originalMallProductId}/>
-                    </Grid>
-                ))}
-            </Grid>
+            <Stack spacing={2} sx={{px: {xs: 2, md: 4}, pt: 2, minHeight: 0}}>
+                <Stack spacing={2} sx={{overflow: 'auto'}}>
+                    {shoppingData.length > 0 && shoppingData.map((shoppingItem: any, shoppingIndex) => {
+                        const {
+                            imageUrl,
+                            productTitle,
+                            openDate,
+                            price,
+                            deliveryFeeContent,
+                            reviewCount,
+                            purchaseCnt,
+                            originalMallProductId,
+                            mallProductUrl,
+                            scoreInfo,
+                            keepCnt
+                        } = shoppingItem;
+                        return (
+                            <ShoppingCard
+                                imageUrl={imageUrl}
+                                productTitle={productTitle}
+                                openDate={formatDate(openDate)}
+                                price={setLocaleString(Number(price))}
+                                deliveryFeeContent={setLocaleString(Number(deliveryFeeContent))}
+                                reviewCount={reviewCount}
+                                purchaseCnt={setLocaleString(purchaseCnt)}
+                                originalMallProductId={originalMallProductId}
+                                mallProductUrl={mallProductUrl}
+                                scoreInfo={scoreInfo}
+                                keepCnt={keepCnt}
+                            />
+                        )
+                    })}
+                </Stack>
+            </Stack>
+            <ShoppingModal/>
         </>
     );
 };
