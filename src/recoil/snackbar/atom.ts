@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { SnackbarType} from "../../components/common/MadaSnackbar";
+import { SnackbarType } from '../../components/common/MadaSnackbar';
 
 export const snackbarState = atom<SnackbarType>({
   key: 'snackbarState',

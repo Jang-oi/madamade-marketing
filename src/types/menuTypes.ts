@@ -3,6 +3,6 @@
  * url
  */
 export interface MenuTypes {
-    menu: string,
-    url: string,
+  menu: string;
+  url: string;
 }

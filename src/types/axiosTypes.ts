@@ -1,7 +1,5 @@
 export interface RequestAxiosTypes {
-    url : string,
+  url: string;
 }
 
-export interface ResponseAxiosTypes {
-
-}
+export interface ResponseAxiosTypes {}
