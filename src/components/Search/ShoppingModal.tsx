@@ -69,22 +69,22 @@ const ShoppingModal = () => {
             <TabList disableUnderline>
               <Tab>
                 <ListItemDecorator>
-                  <RateReviewIcon />
-                </ListItemDecorator>
-                Keyword
-              </Tab>
-              <Tab>
-                <ListItemDecorator>
                   <SearchIcon />
                 </ListItemDecorator>
                 Review
               </Tab>
+              <Tab>
+                <ListItemDecorator>
+                  <RateReviewIcon />
+                </ListItemDecorator>
+                Keyword
+              </Tab>
             </TabList>
             <TabPanel value={0}>
-              <KeywordTemplate />
+              <ReviewTemplate />
             </TabPanel>
             <TabPanel value={1}>
-              <ReviewTemplate />
+              <KeywordTemplate />
             </TabPanel>
           </Tabs>
         </ModalDialog>

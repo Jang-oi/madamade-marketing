@@ -10,6 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { openNewTab, setLocaleString } from '../../utils/commonUits';
 
 const ShoppingCard = ({
+  shoppingIndex,
   imageUrl,
   productTitle,
   openDate,
@@ -35,6 +36,7 @@ const ShoppingCard = ({
     <Card
       variant="outlined"
       orientation="horizontal"
+      key={shoppingIndex}
       sx={{
         display: 'flex',
         flexDirection: { xs: 'column', sm: 'row' },

@@ -30,6 +30,8 @@ const Main = () => {
               } = shoppingItem;
               return (
                 <ShoppingCard
+                  key={shoppingIndex}
+                  shoppingIndex={shoppingIndex}
                   imageUrl={imageUrl}
                   productTitle={productTitle}
                   openDate={formatDate(openDate)}

@@ -55,9 +55,9 @@ const ReviewTemplate = () => {
               return (
                 <tr key={reviewIndex} style={{ textAlign: 'center', fontSize: '18px' }}>
                   <td>{reviewIndex + 1}</td>
-                  <td>{reviewItem.productOptionContent}</td>
+                  <td>{reviewItem.optionKey}</td>
                   <td>{setLocaleString(reviewItem.cnt)}</td>
-                  <td>{setLocaleString(reviewItem.reviewScore / reviewItem.cnt)}</td>
+                  <td>{setLocaleString(reviewItem.reviewCount / reviewItem.cnt)}</td>
                 </tr>
               );
             })}

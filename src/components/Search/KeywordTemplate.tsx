@@ -16,7 +16,7 @@ const KeywordTemplate = () => {
   const { shoppingDetailData } = shoppingDetailModal as any;
 
   useEffect(() => {
-    if (keywordData.length > 0) return;
+    if (keywordData.length > 0 || isLoading) return;
     const { mallProductUrl, productTitle } = shoppingDetailData;
     setIsLoading(true);
     axiosAPI('/getkeyword', { mallProductUrl, productTitle })
@@ -49,22 +49,13 @@ const KeywordTemplate = () => {
               월간 검색 수
             </th>
             <th style={{ textAlign: 'center' }} colSpan={2}>
-              월평균 클릭 수
-            </th>
-            <th style={{ textAlign: 'center' }} colSpan={2}>
               월평균 클릭 률
-            </th>
-            <th style={{ textAlign: 'center' }} rowSpan={2}>
-              경쟁 정도
             </th>
             <th style={{ textAlign: 'center' }} rowSpan={2}>
               총 상품수
             </th>
             <th style={{ textAlign: 'center' }} rowSpan={2}>
-              월 평균노출 광고 수
-            </th>
-            <th style={{ textAlign: 'center' }} rowSpan={2}>
-              모바일 웹 클릭 합계
+              모바일 웹 검색 합계
             </th>
             <th style={{ textAlign: 'center' }} rowSpan={2}>
               검색 시 순위
@@ -72,8 +63,6 @@ const KeywordTemplate = () => {
           </tr>
           <tr>
             <th style={{ textAlign: 'center', borderRadius: 0 }}>PC</th>
-            <th style={{ textAlign: 'center' }}>모바일</th>
-            <th style={{ textAlign: 'center' }}>PC</th>
             <th style={{ textAlign: 'center' }}>모바일</th>
             <th style={{ textAlign: 'center' }}>PC</th>
             <th style={{ textAlign: 'center', borderRightWidth: 0 }}>모바일</th>
@@ -89,13 +78,9 @@ const KeywordTemplate = () => {
                   </td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.monthlyPcQcCnt)}</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.monthlyMobileQcCnt)}</td>
-                  <td style={{ textAlign: 'center' }}>{setLocaleString(data.monthlyAvePcClkCnt)}</td>
-                  <td style={{ textAlign: 'center' }}>{setLocaleString(data.monthlyAveMobileClkCnt)}</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.monthlyAvePcCtr)}%</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.monthlyAveMobileCtr)}%</td>
-                  <td style={{ textAlign: 'center' }}>{setLocaleString(data.compIdx)}</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.total)}</td>
-                  <td style={{ textAlign: 'center' }}>{setLocaleString(data.plAvgDepth)}</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.clkCntSum)}</td>
                   <td style={{ textAlign: 'center' }}>
                     {data.keywordRate ? setLocaleString(data.keywordRate) : '순위에 없음'}
