@@ -1,11 +1,10 @@
 import React from 'react';
-import { AspectRatio, Card, CardContent, CardOverflow, Link, Stack, Tooltip, Typography } from '@mui/joy';
+import { AspectRatio, Card, CardContent, CardOverflow, Stack, Tooltip, Typography } from '@mui/joy';
 import Rating from '@mui/material/Rating';
 import ButtonBase from '@mui/material/ButtonBase';
 import { shoppingDetailModalState } from '../../recoil/shoppingData/atom';
 import { useSetRecoilState } from 'recoil';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { openNewTab, setLocaleString } from '../../utils/commonUits';
 
@@ -90,11 +89,6 @@ const ShoppingCard = ({
               {deliveryFeeContent}
             </Typography>
           </Tooltip>
-          <Tooltip title="구매건수">
-            <Typography level="body-xs" startDecorator={<ShoppingCartIcon />}>
-              {purchaseCnt}
-            </Typography>
-          </Tooltip>
           <Tooltip title="찜하기">
             <Typography level="body-xs" startDecorator={<FavoriteIcon />}>
               {keepCnt}
@@ -112,6 +106,7 @@ const ShoppingCard = ({
             sx={{ display: 'flex', gap: 1 }}
           >
             {`${setLocaleString(reviewCount)} (${scoreInfo})`}
+            <Typography level={'title-sm'}> {`총 구매 건수 : ${purchaseCnt}`}</Typography>
           </Typography>
           <Typography level="title-lg" sx={{ flexGrow: 1, textAlign: 'right' }}>
             <strong>{price}원</strong>

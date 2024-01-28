@@ -26,6 +26,8 @@ export function openNewTab(url: string) {
  * @param setNumber
  */
 export const setLocaleString = (setNumber: number) => {
+  if (setNumber === 0) return 0;
+  if (!setNumber) return;
   const option = {
     maximumFractionDigits: 2,
   };

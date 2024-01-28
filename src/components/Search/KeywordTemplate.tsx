@@ -19,9 +19,9 @@ const KeywordTemplate = () => {
     if (keywordData.length > 0 || isLoading) return;
     const { mallProductUrl, productTitle } = shoppingDetailData;
     setIsLoading(true);
-    axiosAPI('/getkeyword', { mallProductUrl, productTitle })
+    axiosAPI('/getKeyword', { mallProductUrl, productTitle })
       .then((res) => {
-        const response = res.data.response;
+        const response = res.data;
         setSnackbarOption({
           ...snackbarOption,
           open: true,
@@ -57,9 +57,9 @@ const KeywordTemplate = () => {
             <th style={{ textAlign: 'center' }} rowSpan={2}>
               모바일 웹 검색 합계
             </th>
-            <th style={{ textAlign: 'center' }} rowSpan={2}>
+            {/*            <th style={{ textAlign: 'center' }} rowSpan={2}>
               검색 시 순위
-            </th>
+            </th>*/}
           </tr>
           <tr>
             <th style={{ textAlign: 'center', borderRadius: 0 }}>PC</th>
@@ -82,9 +82,9 @@ const KeywordTemplate = () => {
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.monthlyAveMobileCtr)}%</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.total)}</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.clkCntSum)}</td>
-                  <td style={{ textAlign: 'center' }}>
+                  {/*                  <td style={{ textAlign: 'center' }}>
                     {data.keywordRate ? setLocaleString(data.keywordRate) : '순위에 없음'}
-                  </td>
+                  </td>*/}
                 </tr>
               );
             })}

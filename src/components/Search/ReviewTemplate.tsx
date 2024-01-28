@@ -6,8 +6,9 @@ import { SnackbarType } from '../common/MadaSnackbar';
 import { snackbarState } from '../../recoil/snackbar/atom';
 import LoadingComponent from '../common/LoadingComponent';
 import { reviewDataState } from '../../recoil/shoppingData/atom';
-import { Table } from '@mui/joy';
+import { Table, Tooltip } from '@mui/joy';
 import { setLocaleString } from '../../utils/commonUits';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const ReviewTemplate = () => {
   const shoppingDetailModal = useRecoilValue(shoppingDetailModalState);
@@ -24,9 +25,9 @@ const ReviewTemplate = () => {
     }
     if (reviewData.length > 0) return;
     setIsLoading(true);
-    axiosAPI('/getreview', { mallProductUrl, originalMallProductId, reviewCount })
+    axiosAPI('/getReview', { mallProductUrl, originalMallProductId, reviewCount })
       .then((res) => {
-        const response = res.data.response;
+        const response = res.data;
         setSnackbarOption({
           ...snackbarOption,
           open: true,
@@ -44,9 +45,15 @@ const ReviewTemplate = () => {
         <thead>
           <tr>
             <th style={{ width: '10%', textAlign: 'center' }}>순위</th>
-            <th style={{ width: '70%', textAlign: 'center' }}>옵션명</th>
+            <th style={{ width: '60%', textAlign: 'center' }}>옵션명</th>
             <th style={{ width: '10%', textAlign: 'center' }}>리뷰 개수</th>
-            <th style={{ width: '10%', textAlign: 'center' }}>리뷰 점수</th>
+            <th style={{ width: '10%', textAlign: 'center' }}>
+              리뷰 점수
+              <Tooltip title={'총 리뷰 점수 / 리뷰 개수'}>
+                <HelpOutlineIcon fontSize={'small'} />
+              </Tooltip>
+            </th>
+            <th style={{ width: '10%', textAlign: 'center' }}>재구매</th>
           </tr>
         </thead>
         <tbody>
@@ -55,9 +62,10 @@ const ReviewTemplate = () => {
               return (
                 <tr key={reviewIndex} style={{ textAlign: 'center', fontSize: '18px' }}>
                   <td>{reviewIndex + 1}</td>
-                  <td>{reviewItem.optionKey}</td>
-                  <td>{setLocaleString(reviewItem.cnt)}</td>
-                  <td>{setLocaleString(reviewItem.reviewCount / reviewItem.cnt)}</td>
+                  <td>{reviewItem.productOptionContent}</td>
+                  <td>{setLocaleString(reviewItem.count)}</td>
+                  <td>{setLocaleString(reviewItem.reviewScore / reviewItem.count)}</td>
+                  <td>{setLocaleString(reviewItem.repurchase)}</td>
                 </tr>
               );
             })}

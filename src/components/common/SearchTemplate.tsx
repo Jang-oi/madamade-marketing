@@ -22,7 +22,7 @@ const SearchTemplate = () => {
       setIsLoading(true);
       axiosAPI('/getShoppingList', { searchValue })
         .then((res) => {
-          const response = res.data.response;
+          const response = res.data;
           setSnackbarOption({
             ...snackbarOption,
             open: true,
@@ -45,7 +45,7 @@ const SearchTemplate = () => {
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Input
         sx={{ '--Input-decoratorChildHeight': '45px', width: '40vw' }}
-        placeholder="검색어를 입력하세요."
+        placeholder="상품명을 검색하세요."
         required
         value={searchValue}
         onKeyDown={handleOnKeyPress}
