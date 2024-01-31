@@ -31,6 +31,7 @@ const SearchTemplate = () => {
           });
           setShoppingData(response.data);
         })
+        .catch()
         .finally(() => setIsLoading(false));
     }
   };

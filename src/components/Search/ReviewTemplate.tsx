@@ -15,7 +15,10 @@ const ReviewTemplate = () => {
   const [snackbarOption, setSnackbarOption] = useRecoilState<SnackbarType>(snackbarState);
   const [reviewData, setReviewData] = useRecoilState(reviewDataState);
   const [isLoading, setIsLoading] = useState(false);
-  const { showModal, shoppingDetailData } = shoppingDetailModal as any;
+  const { shoppingDetailData } = shoppingDetailModal as any;
+
+  const abortController = new AbortController();
+  const signal = abortController.signal;
 
   useEffect(() => {
     const { originalMallProductId, reviewCount, mallProductUrl } = shoppingDetailData;
@@ -24,19 +27,33 @@ const ReviewTemplate = () => {
       return;
     }
     if (reviewData.length > 0) return;
-    setIsLoading(true);
-    axiosAPI('/getReview', { mallProductUrl, originalMallProductId, reviewCount })
-      .then((res) => {
-        const response = res.data;
+
+    const getReviewData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axiosAPI(
+          '/getReview',
+          { mallProductUrl, originalMallProductId, reviewCount },
+          { signal },
+        );
+        const { returnCode, returnMsg, data } = response.data;
         setSnackbarOption({
           ...snackbarOption,
           open: true,
-          isError: response.returnCode < 0,
-          message: response.returnMsg,
+          isError: returnCode < 0,
+          message: returnMsg,
         });
-        setReviewData(response.data);
-      })
-      .finally(() => setIsLoading(false));
+        setReviewData(data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getReviewData();
+
+    return () => abortController.abort();
   }, []);
 
   return (

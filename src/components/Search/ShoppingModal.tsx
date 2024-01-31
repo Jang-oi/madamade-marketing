@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Modal,
   Tab,
   ModalDialog,
-  Select,
-  Option,
   ModalClose,
   Sheet,
   Tabs,
@@ -15,7 +13,7 @@ import {
 } from '@mui/joy';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { keywordDataState, shoppingDetailModalState } from '../../recoil/shoppingData/atom';
-import { openNewTab, shoppingDetailOption } from '../../utils/commonUits';
+import { openNewTab } from '../../utils/commonUits';
 import ReviewTemplate from './ReviewTemplate';
 import { reviewDataState } from '../../recoil/shoppingData/atom';
 import RateReviewIcon from '@mui/icons-material/RateReview';
@@ -25,19 +23,14 @@ import ButtonBase from '@mui/material/ButtonBase';
 
 const ShoppingModal = () => {
   const [shoppingDetailModal, setShoppingDetailModal] = useRecoilState(shoppingDetailModalState);
-  const [selectTabIndex, setSelectTabIndex] = useState(0);
   const resetReviewData = useResetRecoilState(reviewDataState);
   const resetKeywordData = useResetRecoilState(keywordDataState);
   const { showModal, shoppingDetailData } = shoppingDetailModal as any;
   const { productTitle, mallProductUrl } = shoppingDetailData;
-  const onTabHandler = (event: any, value: any) => {
-    setSelectTabIndex(value);
-  };
 
   const onModalCloseHandler = (_event: React.MouseEvent<HTMLButtonElement>, reason: string) => {
     if (reason === 'closeClick') {
       setShoppingDetailModal({ ...shoppingDetailModal, showModal: false });
-      setSelectTabIndex(0);
       resetReviewData();
       resetKeywordData();
     }
@@ -65,7 +58,7 @@ const ShoppingModal = () => {
               상품명 : {productTitle}
             </Typography>
           </ButtonBase>
-          <Tabs defaultValue={selectTabIndex} onChange={onTabHandler} sx={{ width: '90%' }}>
+          <Tabs sx={{ width: '90%' }}>
             <TabList disableUnderline>
               <Tab>
                 <ListItemDecorator>

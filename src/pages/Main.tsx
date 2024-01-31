@@ -48,7 +48,7 @@ const Main = () => {
             })}
         </Stack>
       </Stack>
-      <ShoppingModal />
+      {shoppingData.length > 0 && <ShoppingModal />}
     </>
   );
 };

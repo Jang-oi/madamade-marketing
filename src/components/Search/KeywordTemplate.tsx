@@ -15,22 +15,35 @@ const KeywordTemplate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { shoppingDetailData } = shoppingDetailModal as any;
 
+  const abortController = new AbortController();
+  const signal = abortController.signal;
+
   useEffect(() => {
-    if (keywordData.length > 0 || isLoading) return;
-    const { mallProductUrl, productTitle } = shoppingDetailData;
-    setIsLoading(true);
-    axiosAPI('/getKeyword', { mallProductUrl, productTitle })
-      .then((res) => {
-        const response = res.data;
+    if (keywordData.length > 0) return;
+
+    const getKeywordData = async () => {
+      try {
+        const { mallProductUrl, productTitle } = shoppingDetailData;
+        setIsLoading(true);
+        const response = await axiosAPI('/getKeyword', { mallProductUrl, productTitle }, { signal });
+        const { returnCode, returnMsg, data } = response.data;
         setSnackbarOption({
           ...snackbarOption,
           open: true,
-          isError: response.returnCode < 0,
-          message: response.returnMsg,
+          isError: returnCode < 0,
+          message: returnMsg,
         });
-        setKeywordData(response.data);
-      })
-      .finally(() => setIsLoading(false));
+        setKeywordData(data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getKeywordData();
+
+    return () => abortController.abort();
   }, []);
 
   const onKeywordClick = (encodeValue: string) => {
