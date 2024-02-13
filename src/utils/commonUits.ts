@@ -1,4 +1,19 @@
 import { MenuTypes } from '../types/menuTypes';
+import axios from "axios";
+
+
+export const getSeoulTime = async () => {
+  try {
+    const response = await axios.get('http://worldtimeapi.org/api/timezone/Asia/Seoul');
+    // 현재 시간 정보는 response.data.datetime에서 얻을 수 있습니다.
+    const currentTime = new Date(response.data.datetime);
+    // 시간을 출력하거나 다른 작업을 할 수 있습니다.
+    console.log('Seoul 현재 시간:', currentTime);
+    return currentTime; // 필요에 따라 현재 시간을 반환할 수도 있습니다.
+  } catch (error) {
+    return null;
+  }
+}
 
 /**
  * 밀리세컨드의 시간을 받아 년월일시분초로 표현
@@ -12,7 +27,7 @@ export const formatDate = (input: string) => {
   return `${year}년${month}월${day}일`;
 };
 
-export function openNewTab(url: string) {
+export const openNewTab = (url: string) => {
   const newTab = window.open(url, '_blank');
   if (newTab) {
     newTab.focus();
@@ -35,5 +50,3 @@ export const setLocaleString = (setNumber: number) => {
 };
 
 export const menuData: MenuTypes[] = [{ menu: 'Search', url: '/' }];
-
-export const shoppingDetailOption: { optionValue: string }[] = [{ optionValue: 'Review' }, { optionValue: 'Keyword' }];

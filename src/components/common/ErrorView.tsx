@@ -4,10 +4,12 @@ import { Box, Button, Typography } from '@mui/joy';
 
 interface ErrorProps {
   code: string;
-  message: string;
+  message?: string;
+  buttonValue? : string;
+  buttonCallBack? : () => void;
 }
 
-export default function ErrorView({ code, message }: ErrorProps) {
+export default function ErrorView({ code, message, buttonValue, buttonCallBack }: ErrorProps) {
   const navigate = useNavigate();
 
   return (
@@ -31,10 +33,11 @@ export default function ErrorView({ code, message }: ErrorProps) {
         color={'primary'}
         variant={'soft'}
         onClick={() => {
-          navigate('/');
+            if (buttonCallBack) buttonCallBack();
+            else navigate('/');
         }}
       >
-        메인으로
+          {buttonValue || '메인으로'}
       </Button>
     </Box>
   );
