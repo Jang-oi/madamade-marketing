@@ -1,17 +1,12 @@
-import { useNavigate } from 'react-router-dom';
-
 import { Box, Button, Typography } from '@mui/joy';
 
 interface ErrorProps {
   code: string;
   message?: string;
-  buttonValue? : string;
-  buttonCallBack? : () => void;
+  buttonValue?: string;
+  buttonCallBack?: () => void;
 }
-
 export default function ErrorView({ code, message, buttonValue, buttonCallBack }: ErrorProps) {
-  const navigate = useNavigate();
-
   return (
     <Box
       sx={{
@@ -33,11 +28,10 @@ export default function ErrorView({ code, message, buttonValue, buttonCallBack }
         color={'primary'}
         variant={'soft'}
         onClick={() => {
-            if (buttonCallBack) buttonCallBack();
-            else navigate('/');
+          if (buttonCallBack) buttonCallBack();
         }}
       >
-          {buttonValue || '메인으로'}
+        {buttonValue}
       </Button>
     </Box>
   );

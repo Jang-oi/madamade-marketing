@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Modal,
   Tab,
@@ -20,6 +20,8 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import SearchIcon from '@mui/icons-material/Search';
 import KeywordTemplate from './KeywordTemplate';
 import ButtonBase from '@mui/material/ButtonBase';
+import useLicenseCheck from '../../hooks/useLicenseCheck';
+import LoadingComponent from '../common/LoadingComponent';
 
 const ShoppingModal = () => {
   const [shoppingDetailModal, setShoppingDetailModal] = useRecoilState(shoppingDetailModalState);
@@ -35,6 +37,12 @@ const ShoppingModal = () => {
       resetKeywordData();
     }
   };
+
+  const { checkLicense, isLoading } = useLicenseCheck();
+  useEffect(() => {
+    checkLicense();
+  }, []);
+  if (isLoading) return <LoadingComponent />;
 
   return (
     <Modal

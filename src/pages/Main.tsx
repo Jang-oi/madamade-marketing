@@ -5,9 +5,11 @@ import ShoppingCard from '../components/Search/ShoppingCard';
 import { formatDate, setLocaleString } from '../utils/commonUits';
 import { Stack } from '@mui/joy';
 import ShoppingModal from '../components/Search/ShoppingModal';
+import React, { useEffect } from 'react';
 
 const Main = () => {
   const shoppingData = useRecoilValue(shoppingDataState);
+
   return (
     <>
       <SearchTemplate />
