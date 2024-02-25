@@ -13,17 +13,18 @@ const KeywordTemplate = () => {
   const [snackbarOption, setSnackbarOption] = useRecoilState<SnackbarType>(snackbarState);
   const [keywordData, setKeywordData] = useRecoilState(keywordDataState);
   const [isLoading, setIsLoading] = useState(false);
-  const { shoppingDetailData } = shoppingDetailModal as any;
 
   const abortController = new AbortController();
   const signal = abortController.signal;
 
+  const { shoppingDetailData } = shoppingDetailModal as any;
+  const { mallProductUrl, productTitle } = shoppingDetailData;
+
   useEffect(() => {
-    if (keywordData.length > 0) return;
+    if (keywordData[productTitle]) return;
 
     const getKeywordData = async () => {
       try {
-        const { mallProductUrl, productTitle } = shoppingDetailData;
         setIsLoading(true);
         const response = await axiosAPI('/getKeyword', { mallProductUrl, productTitle }, { signal });
         const { returnCode, returnMsg, data } = response.data;
@@ -33,7 +34,7 @@ const KeywordTemplate = () => {
           isError: returnCode < 0,
           message: returnMsg,
         });
-        setKeywordData(data);
+        setKeywordData({...keywordData, [productTitle]: data.sort((a: any, b: any) => b.total - a.total)});
       } catch (e) {
         console.log(e);
       } finally {
@@ -70,9 +71,6 @@ const KeywordTemplate = () => {
             <th style={{ textAlign: 'center' }} rowSpan={2}>
               모바일 웹 검색 합계
             </th>
-            {/*            <th style={{ textAlign: 'center' }} rowSpan={2}>
-              검색 시 순위
-            </th>*/}
           </tr>
           <tr>
             <th style={{ textAlign: 'center', borderRadius: 0 }}>PC</th>
@@ -82,8 +80,8 @@ const KeywordTemplate = () => {
           </tr>
         </thead>
         <tbody>
-          {keywordData &&
-            keywordData.map((data: any, index: any) => {
+          {keywordData[productTitle] &&
+            keywordData[productTitle].map((data: any, index: any) => {
               return (
                 <tr key={index}>
                   <td style={{ cursor: 'pointer' }} onClick={() => onKeywordClick(data.relKeyword)}>
@@ -95,9 +93,6 @@ const KeywordTemplate = () => {
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.monthlyAveMobileCtr)}%</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.total)}</td>
                   <td style={{ textAlign: 'center' }}>{setLocaleString(data.clkCntSum)}</td>
-                  {/*                  <td style={{ textAlign: 'center' }}>
-                    {data.keywordRate ? setLocaleString(data.keywordRate) : '순위에 없음'}
-                  </td>*/}
                 </tr>
               );
             })}

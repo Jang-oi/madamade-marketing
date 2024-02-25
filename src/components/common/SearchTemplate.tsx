@@ -5,7 +5,7 @@ import { snackbarState } from '../../recoil/snackbar/atom';
 import { useState } from 'react';
 import LoadingComponent from './LoadingComponent';
 import { axiosAPI } from '../../utils/axios';
-import { shoppingDataState } from '../../recoil/shoppingData/atom';
+import {keywordDataState, reviewDataState, shoppingDataState} from '../../recoil/shoppingData/atom';
 
 const SearchTemplate = () => {
   const [searchValue, setSearchValue] = useState<string>('');
@@ -14,11 +14,16 @@ const SearchTemplate = () => {
   const setShoppingData = useSetRecoilState(shoppingDataState);
   const resetShoppingData = useResetRecoilState(shoppingDataState);
 
+  const resetReviewData = useResetRecoilState(reviewDataState);
+  const resetKeywordData = useResetRecoilState(keywordDataState);
+
   const onSearchButtonHandler = () => {
     if (!searchValue) {
       setSnackbarOption({ ...snackbarOption, open: true, isError: true, message: '검색어를 입력해주세요.' });
     } else {
       resetShoppingData();
+      resetReviewData();
+      resetKeywordData();
       setIsLoading(true);
       axiosAPI('/getShoppingList', { searchValue })
         .then((res) => {

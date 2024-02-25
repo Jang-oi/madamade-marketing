@@ -15,18 +15,19 @@ const ReviewTemplate = () => {
   const [snackbarOption, setSnackbarOption] = useRecoilState<SnackbarType>(snackbarState);
   const [reviewData, setReviewData] = useRecoilState(reviewDataState);
   const [isLoading, setIsLoading] = useState(false);
-  const { shoppingDetailData } = shoppingDetailModal as any;
 
   const abortController = new AbortController();
   const signal = abortController.signal;
 
+  const { shoppingDetailData } = shoppingDetailModal as any;
+  const { originalMallProductId, reviewCount, mallProductUrl, productTitle } = shoppingDetailData;
+
   useEffect(() => {
-    const { originalMallProductId, reviewCount, mallProductUrl } = shoppingDetailData;
     if (reviewCount === 0) {
       setSnackbarOption({ ...snackbarOption, open: true, isError: true, message: '해당 상품의 리뷰가 0 건입니다.' });
       return;
     }
-    if (reviewData.length > 0) return;
+    if (reviewData[productTitle]) return;
 
     const getReviewData = async () => {
       try {
@@ -43,7 +44,7 @@ const ReviewTemplate = () => {
           isError: returnCode < 0,
           message: returnMsg,
         });
-        setReviewData(data);
+        setReviewData({...reviewData, [productTitle]: data});
       } catch (e) {
         console.log(e);
       } finally {
@@ -74,8 +75,8 @@ const ReviewTemplate = () => {
           </tr>
         </thead>
         <tbody>
-          {reviewData &&
-            reviewData.map((reviewItem: any, reviewIndex: any) => {
+          {reviewData[productTitle] &&
+            reviewData[productTitle].map((reviewItem: any, reviewIndex: any) => {
               return (
                 <tr key={reviewIndex} style={{ textAlign: 'center', fontSize: '18px' }}>
                   <td>{reviewIndex + 1}</td>

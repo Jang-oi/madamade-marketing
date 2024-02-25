@@ -13,12 +13,16 @@ export const shoppingDetailModalState = atom({
   },
 });
 
-export const reviewDataState = atom({
+type SearchData = {
+  [key: string]: [];
+};
+
+export const reviewDataState = atom<SearchData>({
   key: 'reviewDataState',
-  default: [],
+  default: {},
 });
 
-export const keywordDataState = atom({
+export const keywordDataState = atom<SearchData>({
   key: 'keywordDataState',
-  default: [],
+  default: {},
 });

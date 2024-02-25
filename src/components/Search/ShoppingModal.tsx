@@ -11,11 +11,10 @@ import {
   TabPanel,
   Typography,
 } from '@mui/joy';
-import { useRecoilState, useResetRecoilState } from 'recoil';
-import { keywordDataState, shoppingDetailModalState } from '../../recoil/shoppingData/atom';
+import { useRecoilState } from 'recoil';
+import { shoppingDetailModalState } from '../../recoil/shoppingData/atom';
 import { openNewTab } from '../../utils/commonUits';
 import ReviewTemplate from './ReviewTemplate';
-import { reviewDataState } from '../../recoil/shoppingData/atom';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import SearchIcon from '@mui/icons-material/Search';
 import KeywordTemplate from './KeywordTemplate';
@@ -25,16 +24,12 @@ import LoadingComponent from '../common/LoadingComponent';
 
 const ShoppingModal = () => {
   const [shoppingDetailModal, setShoppingDetailModal] = useRecoilState(shoppingDetailModalState);
-  const resetReviewData = useResetRecoilState(reviewDataState);
-  const resetKeywordData = useResetRecoilState(keywordDataState);
   const { showModal, shoppingDetailData } = shoppingDetailModal as any;
   const { productTitle, mallProductUrl } = shoppingDetailData;
 
   const onModalCloseHandler = (_event: React.MouseEvent<HTMLButtonElement>, reason: string) => {
     if (reason === 'closeClick') {
       setShoppingDetailModal({ ...shoppingDetailModal, showModal: false });
-      resetReviewData();
-      resetKeywordData();
     }
   };
 
